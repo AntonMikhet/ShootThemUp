@@ -59,5 +59,5 @@ private:
 	void OnStartRunning();
 	void OnStopRunning();
 	void OnHealthChanged(float Health);
-
+	void OnGroundLanded(FHitResult& Hit);
 };

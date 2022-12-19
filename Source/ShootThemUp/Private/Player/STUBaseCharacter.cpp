@@ -50,6 +50,7 @@ void ASTUBaseCharacter::BeginPlay()
 	HealthComponent->OnDeath.AddUObject(this, &ASTUBaseCharacter::OnDeath);
 	HealthComponent->OnHealthChanged.AddUObject(this, &ASTUBaseCharacter::OnHealthChanged);
 
+	//LandedDelegate.AddDynamic(this, ASTUBaseCharacter::OnGroundLanded);
 }
 
 
@@ -125,6 +126,11 @@ void ASTUBaseCharacter::OnHealthChanged(float Health)
 {
 	HealthTextComponent->SetText(FText::FromString(FString::Printf(TEXT("%.0f"), Health)));
 
+}
+
+void ASTUBaseCharacter::OnGroundLanded(FHitResult& Hit)
+{
+	const auto FallVelocityZ = GetVelocity().Z;
 }
 
 
