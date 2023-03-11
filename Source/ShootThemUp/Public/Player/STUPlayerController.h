@@ -7,12 +7,11 @@
 #include "STUPlayerController.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class SHOOTTHEMUP_API ASTUPlayerController : public APlayerController
 {
-	GENERATED_BODY()
-	
+        GENERATED_BODY()
 
 };

@@ -14,50 +14,63 @@ class UTextRenderComponent;
 UCLASS()
 class SHOOTTHEMUP_API ASTUBaseCharacter : public ACharacter
 {
-	GENERATED_BODY()
+        GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
-	ASTUBaseCharacter(const FObjectInitializer& ObjInit);
+        // Sets default values for this character's properties
+        ASTUBaseCharacter(const FObjectInitializer& ObjInit);
 
 protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
-	UCameraComponent* CameraComponent;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
-	USpringArmComponent* SpringArmComponent;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
-	USTUHealthComponent* HealthComponent;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
-	UTextRenderComponent* HealthTextComponent;
-	UPROPERTY(EditDefaultsOnly, Category = "Animation")
-	UAnimMontage* DeathAnimation;
+        UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+        UCameraComponent* CameraComponent;
 
-	void OnDeath();
+        UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+        USpringArmComponent* SpringArmComponent;
 
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+        UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+        USTUHealthComponent* HealthComponent;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+        UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+        UTextRenderComponent* HealthTextComponent;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+        UPROPERTY(EditDefaultsOnly, Category = "Animation")
+        UAnimMontage* DeathAnimation;
 
-	UFUNCTION(BlueprintPure, Category = "Movement")
-		bool IsRunning() const;
-	UFUNCTION(BlueprintPure, Category = "Movement")
-		float GetMovementDirection() const;
+        UPROPERTY(EditDefaultsOnly, Category = "Damage")
+        FVector2D LandedDamageVelocity = FVector2D(900.0f, 1200.0f);
 
+        UPROPERTY(EditDefaultsOnly, Category = "Damage")
+        FVector2D LandedDamage = FVector2D(10.0f, 100.0f);
 
-private: 
-	bool WantsToRun = false;
-	bool IsMovingForward = false;
+        void OnDeath();
 
-	void MoveForward(float Amount);
-	void MoveRight(float Amount);
-	void OnStartRunning();
-	void OnStopRunning();
-	void OnHealthChanged(float Health);
-	void OnGroundLanded(FHitResult& Hit);
+        // Called when the game starts or when spawned
+        virtual void BeginPlay() override;
+
+public:
+        // Called every frame
+        virtual void Tick(float DeltaTime) override;
+
+        // Called to bind functionality to input
+        virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+
+        UFUNCTION(BlueprintPure, Category = "Movement")
+        bool IsRunning() const;
+        UFUNCTION(BlueprintPure, Category = "Movement")
+        float GetMovementDirection() const;
+
+        bool WantsToRun = false;
+        bool IsMovingForward = false;
+
+        void MoveForward(float Amount);
+        void MoveRight(float Amount);
+
+        void OnStartRunning();
+        void OnStopRunning();
+
+        void OnHealthChanged(const float Health) const;
+
+private:
+        UFUNCTION()
+        void OnGroundLanded(const FHitResult& Hit);
 };
