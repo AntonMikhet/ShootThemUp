@@ -10,6 +10,7 @@ class UCameraComponent;
 class USpringArmComponent;
 class USTUHealthComponent;
 class UTextRenderComponent;
+class USTUWeaponComponent;
 
 UCLASS()
 class SHOOTTHEMUP_API ASTUBaseCharacter : public ACharacter
@@ -20,7 +21,8 @@ public:
         // Sets default values for this character's properties
         ASTUBaseCharacter(const FObjectInitializer& ObjInit);
 
-protected:
+public:
+        //Components
         UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
         UCameraComponent* CameraComponent;
 
@@ -33,27 +35,17 @@ protected:
         UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
         UTextRenderComponent* HealthTextComponent;
 
-        UPROPERTY(EditDefaultsOnly, Category = "Animation")
-        UAnimMontage* DeathAnimation;
-
-        UPROPERTY(EditDefaultsOnly, Category = "Damage")
-        FVector2D LandedDamageVelocity = FVector2D(900.0f, 1200.0f);
-
-        UPROPERTY(EditDefaultsOnly, Category = "Damage")
-        FVector2D LandedDamage = FVector2D(10.0f, 100.0f);
-
-        void OnDeath();
-
-        // Called when the game starts or when spawned
-        virtual void BeginPlay() override;
+        UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+        USTUWeaponComponent* WeaponComponent;
 
 public:
-        // Called every frame
+        virtual void BeginPlay() override;
+
         virtual void Tick(float DeltaTime) override;
 
-        // Called to bind functionality to input
         virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
+public:
         UFUNCTION(BlueprintPure, Category = "Movement")
         bool IsRunning() const;
         UFUNCTION(BlueprintPure, Category = "Movement")
@@ -73,4 +65,17 @@ public:
 private:
         UFUNCTION()
         void OnGroundLanded(const FHitResult& Hit);
+
+protected:
+        UPROPERTY(EditDefaultsOnly, Category = "Animation")
+        UAnimMontage* DeathAnimation;
+
+        UPROPERTY(EditDefaultsOnly, Category = "Damage")
+        FVector2D LandedDamageVelocity = FVector2D(900.0f, 1200.0f);
+
+        UPROPERTY(EditDefaultsOnly, Category = "Damage")
+        FVector2D LandedDamage = FVector2D(10.0f, 100.0f);
+
+        void OnDeath();
+
 };

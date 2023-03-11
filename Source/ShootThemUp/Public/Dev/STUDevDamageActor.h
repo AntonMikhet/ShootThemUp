@@ -30,7 +30,6 @@ public:
         bool DoFullDamage = false;
 
         UPROPERTY(EditAnywhere, BlueprintReadWrite)
-
         TSubclassOf<UDamageType> DamageType;
 
 protected:

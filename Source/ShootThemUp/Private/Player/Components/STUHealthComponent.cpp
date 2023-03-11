@@ -52,10 +52,7 @@ void USTUHealthComponent::OnTakeAnyDamageHandle(AActor* DamagedActor,
                 GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &USTUHealthComponent::AutoHealFunction, HealUpdateTime, true, HealDelay);
         }
 
-        if (IsDead())
-        {
-                OnDeath.Broadcast();
-        }
+        if (IsDead()) { OnDeath.Broadcast(); }
 }
 
 void USTUHealthComponent::AutoHealFunction()
