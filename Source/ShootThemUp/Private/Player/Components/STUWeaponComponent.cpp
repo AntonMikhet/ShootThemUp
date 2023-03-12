@@ -34,20 +34,27 @@ void USTUWeaponComponent::BeginPlay()
 
         Owner = Cast<ACharacter>(GetOwner());
 
-        SpawnWeapon();
+        SpawnWeapons();
 
 }
 
-void USTUWeaponComponent::SpawnWeapon()
+void USTUWeaponComponent::AttachWeaponToSocket(ASTUBaseWeapon* Weapon, USceneComponent* Mesh, const FName& SocketName) { }
+
+void USTUWeaponComponent::SpawnWeapons()
 {
-        if (!GetWorld()) { return; }
-        if (!Owner) { return; }
+        if (!GetWorld() || !Owner) { return; }
 
-        CurrentWeapon = Cast<ASTUBaseWeapon>(GetWorld()->SpawnActorDeferred<ASTUBaseWeapon>(WeaponClass, Owner->GetTransform()));
+        for (const auto WeaponClass : WeaponClasses)
+        {
+                const auto Weapon = Cast<ASTUBaseWeapon>(GetWorld()->SpawnActor<ASTUBaseWeapon>(WeaponClass, Owner->GetTransform()));
+                if (!Weapon) { }
+                Weapon->SetOwner(Owner);
+                Weapon->SetController();
+                Weapons.Add(Weapon);
+
+                AttachWeaponToSocket(Weapon, Owner->GetMesh(), WeaponArmorySocketName);
+        }
         CurrentWeapon->WeaponOwner = Owner;
-        UGameplayStatics::FinishSpawningActor(CurrentWeapon, Owner->GetTransform());
-
-        if (!CurrentWeapon) { return; }
-        CurrentWeapon->AttachToComponent(Owner->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
+        CurrentWeapon->AttachToComponent(Owner->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponEquipSocketName);
 
 }

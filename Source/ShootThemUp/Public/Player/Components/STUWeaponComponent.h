@@ -23,17 +23,20 @@ protected:
         // Called when the game starts
         virtual void BeginPlay() override;
 
+        void AttachWeaponToSocket(ASTUBaseWeapon* Weapon, USceneComponent* Mesh, const FName& SocketName);
+
+protected:
         UPROPERTY(EditDefaultsOnly, Category = "General")
         ACharacter* Owner;
 
-        UFUNCTION(BlueprintCallable)
-        void SpawnWeapon();
+        UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+        FName WeaponEquipSocketName = "WeaponSocket";
 
         UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-        FName WeaponSocket = "WeaponSocket";
+        FName WeaponArmorySocketName = "ArmorySocket";
 
         UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-        TSubclassOf<ASTUBaseWeapon> WeaponClass;
+        TArray<TSubclassOf<ASTUBaseWeapon>> WeaponClasses;
 
         UPROPERTY(EditDefaultsOnly, Category = "Weapon")
         ASTUBaseWeapon* CurrentWeapon = nullptr;
@@ -41,4 +44,14 @@ protected:
 public:
         ASTUBaseWeapon* GetCurrentWeapon() const { return CurrentWeapon; }
 
+private:
+        UFUNCTION(BlueprintCallable)
+        void SpawnWeapons();
+
+private:
+        UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+        TArray<ASTUBaseWeapon*> Weapons;
+
+        UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+        int32 CurrentWeaponIndex = 0;
 };
