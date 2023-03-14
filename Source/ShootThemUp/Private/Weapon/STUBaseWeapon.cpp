@@ -39,7 +39,7 @@ void ASTUBaseWeapon::MakeHit(FHitResult& HitResult, FVector TraceStart, FVector 
 {
         if (!GetWorld()) { return; }
         FCollisionQueryParams CollisionParams;
-        CollisionParams.AddIgnoredActor(WeaponOwner);
+        CollisionParams.AddIgnoredActor(GetOwner());
         GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_Visibility, CollisionParams);
 }
 

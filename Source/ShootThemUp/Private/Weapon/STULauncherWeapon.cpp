@@ -13,8 +13,7 @@ void ASTULauncherWeapon::StartFire()
 void ASTULauncherWeapon::MakeShot()
 {
 
-        if (!GetWorld()) { return; }
-        if (!WeaponOwner) { return; }
+        if (!GetWorld() || !GetOwner()) { return; }
 
         FVector TraceStart, TraceEnd;
         if (!GetTraceData(TraceStart, TraceEnd)) { return; }
@@ -31,7 +30,7 @@ void ASTULauncherWeapon::MakeShot()
         if (Projectile)
         {
                 Projectile->SetShootDirection(Direction);
-                Projectile->SetOwner(WeaponOwner);
+                Projectile->SetOwner(GetOwner());
                 Projectile->FinishSpawning(SpawnTransform);
         }
 }

@@ -78,6 +78,7 @@ void ASTUBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
         PlayerInputComponent->BindAction("Run", IE_Released, this, &ASTUBaseCharacter::OnStopRunning);
         PlayerInputComponent->BindAction("Fire", IE_Pressed, WeaponComponent, &USTUWeaponComponent::StartFire);
         PlayerInputComponent->BindAction("Fire", IE_Released, WeaponComponent, &USTUWeaponComponent::StopFire);
+        PlayerInputComponent->BindAction("NextWeapon", IE_Pressed, WeaponComponent, &USTUWeaponComponent::NextWeapon);
 
 }
 
@@ -152,7 +153,7 @@ void ASTUBaseCharacter::OnDeath()
         GetCharacterMovement()->DisableMovement();
         GetCapsuleComponent()->SetCollisionResponseToChannels(ECR_Ignore);
         HealthTextComponent->DestroyComponent();
-        WeaponComponent->GetCurrentWeapon()->Destroy();
+        WeaponComponent->StopFire();
 
         if (Controller) { Controller->ChangeState(NAME_Spectating); }
         UE_LOG(BaseCharacterLog, Display, TEXT("Player %s is dead"), *GetName());

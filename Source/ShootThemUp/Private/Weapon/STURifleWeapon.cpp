@@ -11,8 +11,7 @@ void ASTURifleWeapon::MakeDamage(AActor* DamagedActor, float Damage, const FDama
 
 void ASTURifleWeapon::MakeShot()
 {
-        if (!GetWorld()) { return; }
-        if (!WeaponOwner) { return; }
+        if (!GetWorld() || !GetOwner()) { return; }
 
         FVector TraceStart, TraceEnd;
         if (!GetTraceData(TraceStart, TraceEnd)) { return; }
@@ -25,7 +24,7 @@ void ASTURifleWeapon::MakeShot()
 
                 DrawDebugLine(GetWorld(), GetSocketLocation(), HitResult.ImpactPoint, FColor::Red, false, 3.0f, 0, 1.0f);
                 DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 10.0f, 10, FColor::Red, false, 4.0f);
-                MakeDamage(HitResult.GetActor(), DamageAmount, FDamageEvent(), CharacterController, WeaponOwner);
+                MakeDamage(HitResult.GetActor(), DamageAmount, FDamageEvent(), CharacterController, GetOwner());
         }
         else
         {

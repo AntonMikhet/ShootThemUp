@@ -18,12 +18,12 @@ public:
 
         void StartFire();
         void StopFire();
+        void NextWeapon();
 
 protected:
         // Called when the game starts
         virtual void BeginPlay() override;
-
-        void AttachWeaponToSocket(ASTUBaseWeapon* Weapon, USceneComponent* Mesh, const FName& SocketName);
+        virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 protected:
         UPROPERTY(EditDefaultsOnly, Category = "General")
@@ -44,9 +44,15 @@ protected:
 public:
         ASTUBaseWeapon* GetCurrentWeapon() const { return CurrentWeapon; }
 
+        UPROPERTY(EditDefaultsOnly, Category = "Animation")
+        UAnimMontage* EquipAnimMontage;
+
 private:
         UFUNCTION(BlueprintCallable)
         void SpawnWeapons();
+        void AttachWeaponToSocket(ASTUBaseWeapon* Weapon, USceneComponent* SceneComponent, const FName& SocketName);
+        void EquipWeapon(int32 WeaponIndex);
+        void PlayAnimMontage(UAnimMontage* AnimMontage);
 
 private:
         UPROPERTY(EditDefaultsOnly, Category = "Weapon")

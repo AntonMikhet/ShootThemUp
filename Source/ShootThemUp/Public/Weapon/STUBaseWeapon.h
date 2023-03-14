@@ -54,16 +54,13 @@ public:
         //Public Variable
 
         UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category= "Owner")
-        AActor* WeaponOwner = nullptr;
-
-        UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category= "Owner")
         AController* CharacterController = nullptr;
-
-protected:
-        //Protected Variable
 
         UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category= "Components")
         USkeletalMeshComponent* WeaponMesh;
+
+protected:
+        //Protected Variable
 
         UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category= "Socket")
         FName MuzzleSocketName = "MuzzleSocket";
