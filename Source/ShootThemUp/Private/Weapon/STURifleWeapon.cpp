@@ -2,6 +2,8 @@
 
 #include "Weapon/STURifleWeapon.h"
 #include "DrawDebugHelpers.h"
+#include "Components/STUWeaponComponent.h"
+#include "GameFramework/Character.h"
 
 void ASTURifleWeapon::MakeDamage(AActor* DamagedActor, float Damage, const FDamageEvent& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
@@ -11,10 +13,18 @@ void ASTURifleWeapon::MakeDamage(AActor* DamagedActor, float Damage, const FDama
 
 void ASTURifleWeapon::MakeShot()
 {
-        if (!GetWorld() || !GetOwner()) { return; }
+        if (!GetWorld() || !GetOwner() || !WeaponComponent->CanFire() || IsAmmoEmpty())
+        {
+                StopFire();
+                return;
+        }
 
         FVector TraceStart, TraceEnd;
-        if (!GetTraceData(TraceStart, TraceEnd)) { return; }
+        if (!GetTraceData(TraceStart, TraceEnd))
+        {
+                StopFire();
+                return;
+        }
 
         FHitResult HitResult;
         MakeHit(HitResult, TraceStart, TraceEnd);
@@ -30,6 +40,7 @@ void ASTURifleWeapon::MakeShot()
         {
                 DrawDebugLine(GetWorld(), GetSocketLocation(), TraceEnd, FColor::Red, false, 3.0f, 0, 1.0f);
         }
+        DecreaseAmmo();
 }
 
 bool ASTURifleWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd)
@@ -51,8 +62,10 @@ bool ASTURifleWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd)
 
 void ASTURifleWeapon::StartFire()
 {
-        MakeShot();
+        Super::StartFire();
+
         GetWorld()->GetTimerManager().SetTimer(ShotTimerHandle, this, &ASTURifleWeapon::MakeShot, FireRate, true);
+        MakeShot();
 
 }
 

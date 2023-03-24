@@ -4,11 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "STUCoreTypes.h"
 #include "STUBaseWeapon.generated.h"
 
 class USkeletalMeshComponent;
 class ACharacter;
 class AController;
+class USTUWeaponComponent;
+
 
 UCLASS()
 class SHOOTTHEMUP_API ASTUBaseWeapon : public AActor
@@ -35,6 +38,12 @@ public:
         UFUNCTION(BlueprintCallable)
         void SetController();
 
+        UFUNCTION(BlueprintCallable)
+        void ChangeClip();
+
+        UFUNCTION(BlueprintCallable)
+        bool CanReload() const;
+
 protected:
         //Protected Function
 
@@ -50,22 +59,53 @@ protected:
         UFUNCTION(BlueprintCallable)
         virtual bool GetTraceData(FVector& TraceStart, FVector& TraceEnd);
 
+        UFUNCTION(BlueprintCallable)
+        void DecreaseAmmo();
+
+        UFUNCTION(BlueprintCallable)
+        bool IsAmmoEmpty() const;
+
+        UFUNCTION(BlueprintCallable)
+        bool IsClipEmpty() const;
+
+private:
+        //Private Function
+
+        void LogAmmo();
+
 public:
         //Public Variable
 
-        UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category= "Owner")
-        AController* CharacterController = nullptr;
 
         UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category= "Components")
         USkeletalMeshComponent* WeaponMesh;
 
+        UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category= "")
+        ACharacter* Character = nullptr;
+
+        UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category= "")
+        USTUWeaponComponent* WeaponComponent = nullptr;
+
+        UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category= "")
+        AController* CharacterController = nullptr;
+
+        FOnClipEmptySignature OnClipEmptySignature;
+
 protected:
         //Protected Variable
 
-        UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category= "Socket")
+        UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category= "Settings")
         FName MuzzleSocketName = "MuzzleSocket";
 
         UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category= "Settings")
         float TraceMaxDistance = 10000.f;
+
+        UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category= "Settings")
+        FAmmoData DefaultAmmo{ 15, 10, false };
+
+private:
+        //Private Variable
+
+        FAmmoData CurrentAmmo;
 
 };

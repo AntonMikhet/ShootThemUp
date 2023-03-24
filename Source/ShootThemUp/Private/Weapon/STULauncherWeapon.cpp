@@ -3,17 +3,18 @@
 #include "Weapon/STULauncherWeapon.h"
 
 #include "STUBaseCharacter.h"
+#include "Components/STUWeaponComponent.h"
 #include "Weapon/Projectile/STUProjectile.h"
 
 void ASTULauncherWeapon::StartFire()
 {
+        Super::StartFire();
         MakeShot();
 }
 
 void ASTULauncherWeapon::MakeShot()
 {
-
-        if (!GetWorld() || !GetOwner()) { return; }
+        if (!GetWorld() || !GetOwner() || !WeaponComponent->CanFire() || IsAmmoEmpty()) { return; }
 
         FVector TraceStart, TraceEnd;
         if (!GetTraceData(TraceStart, TraceEnd)) { return; }
@@ -33,4 +34,6 @@ void ASTULauncherWeapon::MakeShot()
                 Projectile->SetOwner(GetOwner());
                 Projectile->FinishSpawning(SpawnTransform);
         }
+        DecreaseAmmo();
+
 }
