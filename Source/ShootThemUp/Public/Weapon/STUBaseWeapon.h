@@ -44,6 +44,15 @@ public:
         UFUNCTION(BlueprintCallable)
         bool CanReload() const;
 
+        UFUNCTION(BlueprintCallable)
+        FWeaponUIData GetUIData() const { return UIData; };
+
+        UFUNCTION(BlueprintCallable)
+        FAmmoData GetCurrentAmmo() const { return CurrentAmmo; };
+
+        UFUNCTION(BlueprintCallable)
+        FAmmoData GetDefaultAmmo() const { return DefaultAmmo; };
+
 protected:
         //Protected Function
 
@@ -102,6 +111,9 @@ protected:
 
         UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category= "Settings")
         FAmmoData DefaultAmmo{ 15, 10, false };
+
+        UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category= "UI")
+        FWeaponUIData UIData;
 
 private:
         //Private Variable

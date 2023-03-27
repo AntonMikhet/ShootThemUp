@@ -197,6 +197,16 @@ bool USTUWeaponComponent::CanReload() const
         return CurrentWeapon && !EquipAnimInProgress && !ReloadAnimInProgress && CurrentWeapon->CanReload();
 }
 
+bool USTUWeaponComponent::GetWeaponUIData(FWeaponUIData& UIData) const
+{
+        if (CurrentWeapon)
+        {
+                UIData = CurrentWeapon->GetUIData();
+                return true;
+        }
+        return false;
+}
+
 void USTUWeaponComponent::NextWeapon()
 {
         if (!CanEquip()) { return; }

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "STUCoreTypes.h"
+#include "Weapon/STUBaseWeapon.h"
 #include "STUWeaponComponent.generated.h"
 
 class ASTUBaseWeapon;
@@ -20,14 +21,28 @@ public:
         virtual void BeginPlay() override;
         virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
+        UFUNCTION(BlueprintCallable, Category="Weapon")
         void StartFire();
+        UFUNCTION(BlueprintCallable, Category="Weapon")
         void StopFire();
+        UFUNCTION(BlueprintCallable, Category="Weapon")
         void NextWeapon();
+        UFUNCTION(BlueprintCallable, Category="Weapon")
         void Reload();
+
+        UFUNCTION(BlueprintCallable, BlueprintPure, Category="Weapon|Get")
         bool CanFire() const;
+
+        UFUNCTION(BlueprintCallable, BlueprintPure, Category="Weapon|Get")
         bool CanEquip() const;
+
+        UFUNCTION(BlueprintCallable, BlueprintPure, Category="Weapon|Get")
         bool CanReload() const;
+        UFUNCTION(BlueprintCallable, BlueprintPure, Category="Weapon|Get")
         ASTUBaseWeapon* GetCurrentWeapon() const { return CurrentWeapon; }
+
+        UFUNCTION(BlueprintCallable, BlueprintPure, Category="UI|Get")
+        bool GetWeaponUIData(FWeaponUIData& UIData) const;
 
 protected:
         UPROPERTY(EditDefaultsOnly, Category = "General")

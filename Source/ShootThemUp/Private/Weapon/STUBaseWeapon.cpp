@@ -102,8 +102,8 @@ void ASTUBaseWeapon::ChangeClip()
                         UE_LOG(LogBaseWeapon, Warning, TEXT("---------No more clip---------"))
                         return;
                 }
-                CurrentAmmo.Clips--;
         }
+        CurrentAmmo.Clips--;
         CurrentAmmo.Bullets = DefaultAmmo.Bullets;
         UE_LOG(LogBaseWeapon, Display, TEXT("---------Change Clip---------"))
 }

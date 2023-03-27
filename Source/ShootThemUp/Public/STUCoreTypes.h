@@ -26,7 +26,7 @@ struct FAmmoData
         UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category= "Weapons")
         int32 Bullets;
 
-        UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category= "Weapons", meta = (EditCondition = "Infinite"))
+        UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category= "Weapons", meta = (EditCondition = "!Infinite"))
         int32 Clips;
 
         UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category= "Weapons")
@@ -35,6 +35,17 @@ struct FAmmoData
 
 };
 
+USTRUCT(BlueprintType)
+struct FWeaponUIData
+{
+        GENERATED_USTRUCT_BODY()
+
+        UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="UI")
+        UTexture2D* MainIcon = nullptr;
+
+        UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="UI")
+        UTexture2D* CrosshairIcon = nullptr;
+};
 
 /// Health
 DECLARE_MULTICAST_DELEGATE(FOnDeathSignature);
