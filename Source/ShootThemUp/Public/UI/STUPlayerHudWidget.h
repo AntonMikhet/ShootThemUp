@@ -37,12 +37,6 @@ public:
         UFUNCTION(BlueprintCallable, BlueprintPure, Category="UI|Get")
         bool GetWeaponAmmoDefaultData(FAmmoData& AmmoData) const;
 
-        UFUNCTION(BlueprintCallable, BlueprintPure, Category="UI|Get")
-        USTUWeaponComponent* GetWeaponComponent() const;
-
-        UFUNCTION(BlueprintCallable, BlueprintPure, Category="UI|Get")
-        USTUHealthComponent* GetHealthComponent() const;
-
 protected:
         UFUNCTION(BlueprintCallable, BlueprintPure, Category="UI|Get")
         bool IsPlayerAlive() const;

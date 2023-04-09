@@ -1,4 +1,6 @@
 ﻿#pragma once
+
+#include "CoreMinimal.h"
 #include "STUCoreTypes.generated.h"
 
 class ASTUBaseWeapon;

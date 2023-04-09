@@ -4,6 +4,7 @@
 #include "UI/STUPlayerHudWidget.h"
 #include "Components/STUHealthComponent.h"
 #include "Components/STUWeaponComponent.h"
+#include "STUUtils.h"
 
 
 void USTUPlayerHudWidget::NativeConstruct()
@@ -16,7 +17,7 @@ void USTUPlayerHudWidget::NativeConstruct()
 float USTUPlayerHudWidget::GetHealthPercent() const
 {
 
-        const USTUHealthComponent* Component = GetHealthComponent();
+        const USTUHealthComponent* Component = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(Player);
         if (!Component) { return 0.0f; }
 
         return Component->GetHealthPercent();
@@ -40,7 +41,7 @@ FString USTUPlayerHudWidget::GetCurrentAmountAmmo() const
 bool USTUPlayerHudWidget::GetWeaponCurrentUIData(FWeaponUIData& UIData) const
 {
 
-        const USTUWeaponComponent* Component = GetWeaponComponent();
+        const USTUWeaponComponent* Component = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(Player);
         if (!Component) { return false; }
 
         return Component->GetWeaponUIData(UIData);
@@ -49,7 +50,7 @@ bool USTUPlayerHudWidget::GetWeaponCurrentUIData(FWeaponUIData& UIData) const
 bool USTUPlayerHudWidget::GetWeaponCurrentAmmoData(FAmmoData& AmmoData) const
 {
 
-        const USTUWeaponComponent* Component = GetWeaponComponent();
+        const USTUWeaponComponent* Component = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(Player);
         if (!Component) { return false; }
 
         AmmoData = Component->GetCurrentWeapon()->GetCurrentAmmo();
@@ -60,7 +61,7 @@ bool USTUPlayerHudWidget::GetWeaponCurrentAmmoData(FAmmoData& AmmoData) const
 bool USTUPlayerHudWidget::GetWeaponAmmoDefaultData(FAmmoData& AmmoData) const
 {
 
-        const USTUWeaponComponent* Component = GetWeaponComponent();
+        const USTUWeaponComponent* Component = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(Player);
         if (!Component) { return false; }
 
         AmmoData = Component->GetCurrentWeapon()->GetDefaultAmmo();
@@ -68,28 +69,10 @@ bool USTUPlayerHudWidget::GetWeaponAmmoDefaultData(FAmmoData& AmmoData) const
         return true;
 }
 
-USTUWeaponComponent* USTUPlayerHudWidget::GetWeaponComponent() const
-{
-        if (!Player) { return nullptr; }
-
-        USTUWeaponComponent* Component = Cast<USTUWeaponComponent>(Player->GetComponentByClass(USTUWeaponComponent::StaticClass()));
-        if (!Component) { return nullptr; }
-        return Component;
-}
-
-USTUHealthComponent* USTUPlayerHudWidget::GetHealthComponent() const
-{
-        if (!Player) { return nullptr; }
-
-        USTUHealthComponent* Component = Cast<USTUHealthComponent>(Player->GetComponentByClass(USTUHealthComponent::StaticClass()));
-        if (!Component) { return nullptr; }
-
-        return Component;
-}
 
 bool USTUPlayerHudWidget::IsPlayerAlive() const
 {
-        const auto HealthComponent = GetHealthComponent();
+        const auto HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(Player);
         return HealthComponent && !HealthComponent->IsDead();
 }
 
